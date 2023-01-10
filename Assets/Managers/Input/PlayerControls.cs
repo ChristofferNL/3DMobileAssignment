@@ -35,6 +35,15 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": true
+                },
+                {
+                    ""name"": ""Jump"",
+                    ""type"": ""Button"",
+                    ""id"": ""a60aaf5a-80b1-48fc-8e1d-b8a4b98aed88"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -94,59 +103,15 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
                     ""isPartOfComposite"": true
                 },
                 {
-                    ""name"": ""2D Vector"",
-                    ""id"": ""384d273a-f37b-4777-8c47-f1e90ba5ac07"",
-                    ""path"": ""2DVector"",
+                    ""name"": """",
+                    ""id"": ""84d3b414-47de-4f23-83d9-5bf3fda75c3e"",
+                    ""path"": ""<Keyboard>/space"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
-                    ""action"": ""MovementActions"",
-                    ""isComposite"": true,
+                    ""action"": ""Jump"",
+                    ""isComposite"": false,
                     ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": ""up"",
-                    ""id"": ""88d2bbe8-673e-4e87-8a95-4a02f1cfed88"",
-                    ""path"": ""<Touchscreen>/delta/up"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""MovementActions"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": true
-                },
-                {
-                    ""name"": ""down"",
-                    ""id"": ""ed70758b-a4bb-4b9f-bfeb-b5d184cbce99"",
-                    ""path"": ""<Touchscreen>/delta/down"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""MovementActions"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": true
-                },
-                {
-                    ""name"": ""left"",
-                    ""id"": ""1b2b74f1-4669-417e-84f4-98121a363483"",
-                    ""path"": ""<Touchscreen>/delta/left"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""MovementActions"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": true
-                },
-                {
-                    ""name"": ""right"",
-                    ""id"": ""33d9461d-51a1-49a3-a509-c217dd1a92ca"",
-                    ""path"": ""<Touchscreen>/delta/right"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""MovementActions"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": true
                 }
             ]
         }
@@ -156,6 +121,7 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
         // PlayerActionMap
         m_PlayerActionMap = asset.FindActionMap("PlayerActionMap", throwIfNotFound: true);
         m_PlayerActionMap_MovementActions = m_PlayerActionMap.FindAction("MovementActions", throwIfNotFound: true);
+        m_PlayerActionMap_Jump = m_PlayerActionMap.FindAction("Jump", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -216,11 +182,13 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
     private readonly InputActionMap m_PlayerActionMap;
     private IPlayerActionMapActions m_PlayerActionMapActionsCallbackInterface;
     private readonly InputAction m_PlayerActionMap_MovementActions;
+    private readonly InputAction m_PlayerActionMap_Jump;
     public struct PlayerActionMapActions
     {
         private @PlayerControls m_Wrapper;
         public PlayerActionMapActions(@PlayerControls wrapper) { m_Wrapper = wrapper; }
         public InputAction @MovementActions => m_Wrapper.m_PlayerActionMap_MovementActions;
+        public InputAction @Jump => m_Wrapper.m_PlayerActionMap_Jump;
         public InputActionMap Get() { return m_Wrapper.m_PlayerActionMap; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -233,6 +201,9 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
                 @MovementActions.started -= m_Wrapper.m_PlayerActionMapActionsCallbackInterface.OnMovementActions;
                 @MovementActions.performed -= m_Wrapper.m_PlayerActionMapActionsCallbackInterface.OnMovementActions;
                 @MovementActions.canceled -= m_Wrapper.m_PlayerActionMapActionsCallbackInterface.OnMovementActions;
+                @Jump.started -= m_Wrapper.m_PlayerActionMapActionsCallbackInterface.OnJump;
+                @Jump.performed -= m_Wrapper.m_PlayerActionMapActionsCallbackInterface.OnJump;
+                @Jump.canceled -= m_Wrapper.m_PlayerActionMapActionsCallbackInterface.OnJump;
             }
             m_Wrapper.m_PlayerActionMapActionsCallbackInterface = instance;
             if (instance != null)
@@ -240,6 +211,9 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
                 @MovementActions.started += instance.OnMovementActions;
                 @MovementActions.performed += instance.OnMovementActions;
                 @MovementActions.canceled += instance.OnMovementActions;
+                @Jump.started += instance.OnJump;
+                @Jump.performed += instance.OnJump;
+                @Jump.canceled += instance.OnJump;
             }
         }
     }
@@ -247,5 +221,6 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
     public interface IPlayerActionMapActions
     {
         void OnMovementActions(InputAction.CallbackContext context);
+        void OnJump(InputAction.CallbackContext context);
     }
 }

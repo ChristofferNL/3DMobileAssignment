@@ -26,5 +26,6 @@ public class InputManager : MonoBehaviour
     private void Update()
     {
         EventManager.Instance.MoveInputEvent(playerActions.MovementActions.ReadValue<Vector2>());
+        EventManager.Instance.JumpInputEvent(playerActions.Jump.IsPressed());
     }
 }

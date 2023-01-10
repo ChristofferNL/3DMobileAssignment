@@ -7,6 +7,7 @@ public class EventManager : MonoBehaviour
 {
     public static EventManager Instance;
     public UnityEvent<Vector2> EventMoveInput;
+    public UnityEvent<bool> EventJumpInput;
 
     private void Awake()
     {
@@ -19,6 +20,10 @@ public class EventManager : MonoBehaviour
     public void MoveInputEvent(Vector2 input)
     {
         EventMoveInput.Invoke(input);
-        Debug.Log(input);
+    }
+
+    public void JumpInputEvent(bool isJumping)
+    {
+        EventJumpInput.Invoke(isJumping);
     }
 }
