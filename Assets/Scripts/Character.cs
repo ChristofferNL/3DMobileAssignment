@@ -2,89 +2,67 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Character : AnimatedObject
+public abstract class Character : AnimatedObject
 {
-    [HideInInspector] public Rigidbody Rigidbody;
-    public List<GameObject> CharacterMeshObjects;
-    public List<CharacterDataSO> GolemDataObjects = new();
-    public float MoveSpeedMultiplier;
-    public float MaxMoveSpeed;
-    public float JumpDuration;
-    public float JumpSpeed;
-    public bool canJump;
-    public bool IsMoving;
-    protected float JumpDurationStartTime;
-    private int currentGolemType = 0;
+    public Rigidbody Rigidbody { get; set; }
 
-    public override Animator Animator { get; set; }
+    public CharacterDataSO GolemDataObject;
+    public GameObject CharacterMeshObject;
     public override Dictionary<ObjectStates, AnimationClip> AnimationValuePairs { get; set; }
 
-    public AnimationClip IdleAnim;
-    public AnimationClip WalkAnim;
+    private float JumpDurationStartTime;
+    private float jumpDuration;
+    private bool canJump;
+    private bool isMoving;
+    private bool isCurrentGolem;
 
     private void Awake()
     {
         Rigidbody = GetComponent<Rigidbody>();
         Animator = GetComponentInChildren<Animator>();
-        EventManager.Instance.EventMoveInput.AddListener(Move);
-        EventManager.Instance.EventJumpInput.AddListener(Jump);
-        UIManager.Instance.ChangeGolemButton.onClick.AddListener(ChangeGolemType);
-        JumpDurationStartTime = JumpDuration;
+        CharacterMeshObject.gameObject.SetActive(false);
         AnimationValuePairs = new Dictionary<ObjectStates, AnimationClip>()
         {
-            {ObjectStates.Idle, IdleAnim },
-            {ObjectStates.Walking, WalkAnim }
+            {ObjectStates.Idle, GolemDataObject.IdleAnim },
+            {ObjectStates.Walking, GolemDataObject.WalkAnim }
         };
-        ChangeGolemType();
+        JumpDurationStartTime = GolemDataObject.JumpDuration;
+        jumpDuration = GolemDataObject.JumpDuration;
     }
 
     private void Update()
     {
-        UpdateAnimationState();
-        CheckAnimationState();
+        if (isCurrentGolem)
+        {
+            UpdateAnimationState();
+            CheckAnimationState();
+        }     
     }
 
-    public void ChangeGolemType()
+    public void InitializeGolem()
     {
-        int formerGolemType = currentGolemType;
-        do
-        {
-            currentGolemType = Random.Range(0, 3);
-        } while (formerGolemType == currentGolemType);    
+        EventManager.Instance.EventMoveInput.AddListener(Move);
+        EventManager.Instance.EventJumpInput.AddListener(Jump);      
+        CharacterMeshObject.gameObject.SetActive(true);
+        isCurrentGolem = true;
+    }
 
-        MoveSpeedMultiplier = GolemDataObjects[currentGolemType].MoveSpeedMultiplier;
-        MaxMoveSpeed = GolemDataObjects[currentGolemType].MaxMoveSpeed;
-        JumpDuration = GolemDataObjects[currentGolemType].JumpDuration;
-        JumpSpeed = GolemDataObjects[currentGolemType].JumpSpeed;
-
-        ActiveState = ObjectStates.Idle;
-        CheckAnimationState();
-
-        for (int i = 0; i < CharacterMeshObjects.Count; i++)
-        {
-            if (i == currentGolemType)
-            {
-                CharacterMeshObjects[i].SetActive(true);
-            }
-            else
-            {
-                CharacterMeshObjects[i].SetActive(false);
-            }
-        }
-
-        RotateGolem(Rigidbody.velocity.x);
-        Animator = GetComponentInChildren<Animator>();
-
+    public void UnInitializeGolem()
+    {
+        EventManager.Instance.EventMoveInput.RemoveListener(Move);
+        EventManager.Instance.EventJumpInput.RemoveListener(Jump);
+        CharacterMeshObject.gameObject.SetActive(false);
+        isCurrentGolem = false;
     }
 
     public void UpdateAnimationState()
     {
-        if (!IsMoving)
+        if (!isMoving)
         {
             ActiveState = ObjectStates.Idle;
             return;
         }
-        if (IsMoving)
+        if (isMoving)
         {
             ActiveState = ObjectStates.Walking;
             return;
@@ -93,19 +71,19 @@ public class Character : AnimatedObject
 
     public virtual void Move(Vector2 input)
     {
-        if (Rigidbody.velocity.x > MaxMoveSpeed && input.x > 0 || Rigidbody.velocity.x < -MaxMoveSpeed && input.x < 0)
+        if (Rigidbody.velocity.x > GolemDataObject.MaxMoveSpeed && input.x > 0 || Rigidbody.velocity.x < -GolemDataObject.MaxMoveSpeed && input.x < 0)
         {
             return;
         }
-        Rigidbody.AddForce(new Vector3(input.x * MoveSpeedMultiplier, 0, 0));
+        Rigidbody.AddForce(new Vector3(input.x * GolemDataObject.MoveSpeedMultiplier, 0, 0));
         if (input.x != 0)
         {
-            IsMoving = true;
+            isMoving = true;
             RotateGolem(input.x);
         }
         else
         {
-            IsMoving = false;
+            isMoving = false;
         }
     }
 
@@ -113,22 +91,22 @@ public class Character : AnimatedObject
     {
         if (xInput >= 0)
         {
-            CharacterMeshObjects[currentGolemType].transform.rotation = Quaternion.Euler(0, 90, 0);
+            CharacterMeshObject.transform.rotation = Quaternion.Euler(0, 90, 0);
         }
         else
         {
-            CharacterMeshObjects[currentGolemType].transform.rotation = Quaternion.Euler(0, 270, 0);
+            CharacterMeshObject.transform.rotation = Quaternion.Euler(0, 270, 0);
         }
     }
 
     public virtual void Jump(bool isJumping)
     {
-        if (canJump && JumpDuration > 0.0f && isJumping)
+        if (canJump && jumpDuration > 0.0f && isJumping)
         {
-            Rigidbody.AddForce(new Vector3(0, JumpSpeed, 0));
-            JumpDuration -= Time.deltaTime;
+            Rigidbody.AddForce(new Vector3(0, GolemDataObject.JumpSpeed, 0));
+            jumpDuration -= Time.deltaTime;
             Debug.Log("Jumping");
-            if (JumpDuration < 0.0f)
+            if (jumpDuration < 0.0f)
             {
                 canJump = false;
             }
@@ -137,6 +115,6 @@ public class Character : AnimatedObject
     private void OnCollisionEnter(Collision collision)
     {
         canJump = true;
-        JumpDuration = JumpDurationStartTime;
+        jumpDuration = JumpDurationStartTime;
     }
 }

@@ -8,7 +8,7 @@ public class UIManager : MonoBehaviour
 {
     public static UIManager Instance;
     public Button ChangeGolemButton;
-    public UnityEvent<CharacterDataSO> EventChangeGolem;
+    public UnityEvent EventChangeGolem;
     public Button ChangeEquipmentButton;
     public Button JumpButton;
     public Button MoveRightButton;

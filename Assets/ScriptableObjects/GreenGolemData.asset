@@ -12,9 +12,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fb10c523f7d286d469a987b5d7f47f45, type: 3}
   m_Name: GreenGolemData
   m_EditorClassIdentifier: 
-  CharacterMesh: {fileID: 1438169871030806, guid: c9bc790a133e19c40b64d6db4cfb7a22,
-    type: 3}
   MoveSpeedMultiplier: 2
   MaxMoveSpeed: 4
-  JumpDuration: 0.3
+  JumpDuration: 0.4
   JumpSpeed: 9
+  IdleAnim: {fileID: 7400000, guid: e724ee346f18e7e43b5b92571f02faa1, type: 2}
+  WalkAnim: {fileID: 7400000, guid: 55033e9d49b386b4eade59453a1d2618, type: 2}

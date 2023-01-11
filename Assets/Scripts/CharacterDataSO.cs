@@ -9,4 +9,7 @@ public class CharacterDataSO : ScriptableObject
     public float MaxMoveSpeed;
     public float JumpDuration;
     public float JumpSpeed;
+
+    public AnimationClip IdleAnim;
+    public AnimationClip WalkAnim;
 }

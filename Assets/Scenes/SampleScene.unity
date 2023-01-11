@@ -600,6 +600,9 @@ GameObject:
   - component: {fileID: 460113670}
   - component: {fileID: 460113667}
   - component: {fileID: 460113666}
+  - component: {fileID: 460113674}
+  - component: {fileID: 460113673}
+  - component: {fileID: 460113672}
   - component: {fileID: 460113671}
   m_Layer: 0
   m_Name: Player
@@ -666,26 +669,53 @@ MonoBehaviour:
   m_GameObject: {fileID: 460113665}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 21cc8021dc7762a44b9229fa6f68713b, type: 3}
+  m_Script: {fileID: 11500000, guid: 29d493031c4e7994fa06561600554897, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Rigidbody: {fileID: 0}
-  CharacterMeshObjects:
-  - {fileID: 939989903}
-  - {fileID: 494931776}
-  - {fileID: 347874808}
-  GolemDataObjects:
-  - {fileID: 11400000, guid: 0f5d6d7ebdeda9048ac3aee3ca3e949d, type: 2}
-  - {fileID: 11400000, guid: c0f2331a685ca934a9accf082ac35033, type: 2}
-  - {fileID: 11400000, guid: e76eaf66ca5fa8a48967156fefb8b93c, type: 2}
-  MoveSpeedMultiplier: 2
-  MaxMoveSpeed: 4
-  JumpDuration: 0.3
-  JumpSpeed: 9
-  canJump: 0
-  IsMoving: 0
-  IdleAnim: {fileID: 7400000, guid: e724ee346f18e7e43b5b92571f02faa1, type: 2}
-  WalkAnim: {fileID: 7400000, guid: 55033e9d49b386b4eade59453a1d2618, type: 2}
+  characters: []
+  ActiveGolem: 0
+--- !u!114 &460113672
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 460113665}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5d32410f5d36c3e44883fafd38fa14e5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  GolemDataObject: {fileID: 11400000, guid: c0f2331a685ca934a9accf082ac35033, type: 2}
+  CharacterMeshObject: {fileID: 939989903}
+--- !u!114 &460113673
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 460113665}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 84ed95b472eff334c9201ae38d00f3f1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  GolemDataObject: {fileID: 11400000, guid: e76eaf66ca5fa8a48967156fefb8b93c, type: 2}
+  CharacterMeshObject: {fileID: 494931776}
+--- !u!114 &460113674
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 460113665}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ba3c5e848d59c0646b028c6265ad32ea, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  GolemDataObject: {fileID: 11400000, guid: 0f5d6d7ebdeda9048ac3aee3ca3e949d, type: 2}
+  CharacterMeshObject: {fileID: 347874808}
 --- !u!1001 &484340973
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -2040,7 +2070,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Navigation:
-    m_Mode: 3
+    m_Mode: 0
     m_WrapAround: 0
     m_SelectOnUp: {fileID: 0}
     m_SelectOnDown: {fileID: 0}
@@ -2162,7 +2192,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Navigation:
-    m_Mode: 3
+    m_Mode: 0
     m_WrapAround: 0
     m_SelectOnUp: {fileID: 0}
     m_SelectOnDown: {fileID: 0}
@@ -2593,7 +2623,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Navigation:
-    m_Mode: 3
+    m_Mode: 0
     m_WrapAround: 0
     m_SelectOnUp: {fileID: 0}
     m_SelectOnDown: {fileID: 0}
@@ -2829,7 +2859,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1438169871030806, guid: c9bc790a133e19c40b64d6db4cfb7a22, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 1905118724701160, guid: c9bc790a133e19c40b64d6db4cfb7a22, type: 3}
       propertyPath: m_IsActive
@@ -3446,7 +3476,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1077356408, guid: c6cfc32748fb5004aa11a1be074b5c58, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 1077356410, guid: c6cfc32748fb5004aa11a1be074b5c58, type: 3}
       propertyPath: m_RootOrder
@@ -3789,7 +3819,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Navigation:
-    m_Mode: 3
+    m_Mode: 0
     m_WrapAround: 0
     m_SelectOnUp: {fileID: 0}
     m_SelectOnDown: {fileID: 0}
@@ -4057,7 +4087,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Navigation:
-    m_Mode: 3
+    m_Mode: 0
     m_WrapAround: 0
     m_SelectOnUp: {fileID: 0}
     m_SelectOnDown: {fileID: 0}
