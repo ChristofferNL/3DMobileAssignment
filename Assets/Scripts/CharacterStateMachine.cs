@@ -15,7 +15,7 @@ public class CharacterStateMachine : MonoBehaviour
 
     private void Awake()
     {
-        UIManager.Instance.EventChangeGolem.AddListener(ChangeGolem);
+        UIManager.Instance.ChangeGolemButton.onClick.AddListener(ChangeGolem);
     }
     private void Start()
     {

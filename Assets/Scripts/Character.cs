@@ -45,6 +45,10 @@ public abstract class Character : AnimatedObject
         EventManager.Instance.EventJumpInput.AddListener(Jump);      
         CharacterMeshObject.gameObject.SetActive(true);
         isCurrentGolem = true;
+        if (Rigidbody.velocity.y != 0)
+        {
+            canJump = false;
+        }
     }
 
     public void UnInitializeGolem()
