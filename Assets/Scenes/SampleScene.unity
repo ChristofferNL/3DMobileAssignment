@@ -670,10 +670,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Rigidbody: {fileID: 0}
-  CharacterMesh:
-  - {fileID: 347874808}
-  - {fileID: 494931776}
+  CharacterMeshObjects:
   - {fileID: 939989903}
+  - {fileID: 494931776}
+  - {fileID: 347874808}
+  GolemDataObjects:
+  - {fileID: 11400000, guid: 0f5d6d7ebdeda9048ac3aee3ca3e949d, type: 2}
+  - {fileID: 11400000, guid: c0f2331a685ca934a9accf082ac35033, type: 2}
+  - {fileID: 11400000, guid: e76eaf66ca5fa8a48967156fefb8b93c, type: 2}
   MoveSpeedMultiplier: 2
   MaxMoveSpeed: 4
   JumpDuration: 0.3
@@ -1791,10 +1795,6 @@ MonoBehaviour:
   JumpButton: {fileID: 2016213978}
   MoveRightButton: {fileID: 2091379844}
   MoveLeftButton: {fileID: 1473761359}
-  GolemDataObjects:
-  - {fileID: 11400000, guid: 0f5d6d7ebdeda9048ac3aee3ca3e949d, type: 2}
-  - {fileID: 11400000, guid: c0f2331a685ca934a9accf082ac35033, type: 2}
-  - {fileID: 11400000, guid: e76eaf66ca5fa8a48967156fefb8b93c, type: 2}
 --- !u!1 &1127625436
 GameObject:
   m_ObjectHideFlags: 0
@@ -3552,7 +3552,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 'Change Race
+  m_text: 'Change Golem
 
 '
   m_isRightToLeft: 0
@@ -3581,8 +3581,8 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 24
-  m_fontSizeBase: 24
+  m_fontSize: 21.86
+  m_fontSizeBase: 21.86
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18

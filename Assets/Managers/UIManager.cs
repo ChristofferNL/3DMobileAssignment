@@ -13,7 +13,6 @@ public class UIManager : MonoBehaviour
     public Button JumpButton;
     public Button MoveRightButton;
     public Button MoveLeftButton;
-    public List<CharacterDataSO> GolemDataObjects = new();
 
     private void Awake()
     {
@@ -21,11 +20,5 @@ public class UIManager : MonoBehaviour
         {
             Instance = this;
         }
-        ChangeGolemButton.onClick.AddListener(ChangeGolem);
-    }
-    public void ChangeGolem()
-    {
-        CharacterDataSO dataSO = GolemDataObjects[Random.Range(0, GolemDataObjects.Count)];
-        EventChangeGolem.Invoke(dataSO);
     }
 }
