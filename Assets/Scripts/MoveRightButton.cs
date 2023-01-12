@@ -13,10 +13,6 @@ public class MoveRightButton : MonoBehaviour, IPointerDownHandler, IPointerUpHan
         {
             EventManager.Instance.MoveInputEvent(1.00f);
         }
-        else
-        {
-            EventManager.Instance.MoveInputEvent(0f);
-        }
     }
     public void OnPointerDown(PointerEventData eventData)
     {
@@ -26,5 +22,6 @@ public class MoveRightButton : MonoBehaviour, IPointerDownHandler, IPointerUpHan
     public void OnPointerUp(PointerEventData eventData)
     {
         buttonPressed = false;
+        EventManager.Instance.MoveInputEvent(0f);
     }
 }

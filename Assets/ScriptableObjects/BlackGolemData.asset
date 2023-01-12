@@ -12,9 +12,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fb10c523f7d286d469a987b5d7f47f45, type: 3}
   m_Name: BlackGolemData
   m_EditorClassIdentifier: 
-  MoveSpeedMultiplier: 3
-  MaxMoveSpeed: 6
+  MoveSpeedMultiplier: 70
+  MaxMoveSpeed: 80
   JumpDuration: 0.4
-  JumpSpeed: 7
+  JumpSpeed: 130
+  AttackCooldown: 3
+  AttackProjectileObject: {fileID: 0}
   IdleAnim: {fileID: 7400000, guid: e724ee346f18e7e43b5b92571f02faa1, type: 2}
   WalkAnim: {fileID: 7400000, guid: 55033e9d49b386b4eade59453a1d2618, type: 2}
+  AttackAnim: {fileID: 7400000, guid: 4ae4bd8ed0b912b4c9d89fbbc0b41fe1, type: 2}

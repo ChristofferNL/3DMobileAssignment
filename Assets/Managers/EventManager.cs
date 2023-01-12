@@ -8,6 +8,7 @@ public class EventManager : MonoBehaviour
     public static EventManager Instance;
     public UnityEvent<float> EventMoveInput;
     public UnityEvent<bool> EventJumpInput;
+    public UnityEvent<bool> EventAttackInput;
 
     private void Awake()
     {
@@ -15,6 +16,11 @@ public class EventManager : MonoBehaviour
         {
             Instance = this;
         }
+    }
+
+    public void AttackInputEvent(bool isAttacking)
+    {
+        EventAttackInput.Invoke(isAttacking);
     }
 
     public void MoveInputEvent(float input)

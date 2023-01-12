@@ -3,16 +3,13 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
-public class MoveLeftButton : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
+public class AttackButton : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
 {
     bool buttonPressed;
 
     private void Update()
     {
-        if (buttonPressed)
-        {
-            EventManager.Instance.MoveInputEvent(-1.00f);
-        }
+        EventManager.Instance.AttackInputEvent(buttonPressed);
     }
     public void OnPointerDown(PointerEventData eventData)
     {
@@ -22,6 +19,5 @@ public class MoveLeftButton : MonoBehaviour, IPointerDownHandler, IPointerUpHand
     public void OnPointerUp(PointerEventData eventData)
     {
         buttonPressed = false;
-        EventManager.Instance.MoveInputEvent(0f);
     }
 }

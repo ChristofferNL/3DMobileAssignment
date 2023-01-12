@@ -10,6 +10,7 @@ public class UIManager : MonoBehaviour
     public Button ChangeGolemButton;
     public Button ChangeEquipmentButton;
     public Button JumpButton;
+    public Button SmashButton;
     public Button MoveRightButton;
     public Button MoveLeftButton;
 

@@ -12,9 +12,11 @@ public abstract class Character : AnimatedObject
 
     private float JumpDurationStartTime;
     private float jumpDuration;
+    private float attackCooldownTimer;
     private bool canJump;
     private bool isMoving;
     private bool isCurrentGolem;
+    private bool isAttacking;
 
     private void Awake()
     {
@@ -24,10 +26,12 @@ public abstract class Character : AnimatedObject
         AnimationValuePairs = new Dictionary<ObjectStates, AnimationClip>()
         {
             {ObjectStates.Idle, GolemDataObject.IdleAnim },
-            {ObjectStates.Walking, GolemDataObject.WalkAnim }
+            {ObjectStates.Walking, GolemDataObject.WalkAnim },
+            {ObjectStates.AttackOne, GolemDataObject.AttackAnim }
         };
         JumpDurationStartTime = GolemDataObject.JumpDuration;
         jumpDuration = GolemDataObject.JumpDuration;
+        attackCooldownTimer = GolemDataObject.AttackCooldown;
     }
 
     private void Update()
@@ -36,6 +40,7 @@ public abstract class Character : AnimatedObject
         {
             UpdateAnimationState();
             CheckAnimationState();
+            AttackResetMethod();
         }
     }
 
@@ -43,6 +48,7 @@ public abstract class Character : AnimatedObject
     {
         EventManager.Instance.EventMoveInput.AddListener(Move);
         EventManager.Instance.EventJumpInput.AddListener(Jump);
+        EventManager.Instance.EventAttackInput.AddListener(SpecialAttack);
         CharacterMeshObject.gameObject.SetActive(true);
         isCurrentGolem = true;
         if (Rigidbody.velocity.y != 0)
@@ -55,12 +61,18 @@ public abstract class Character : AnimatedObject
     {
         EventManager.Instance.EventMoveInput.RemoveListener(Move);
         EventManager.Instance.EventJumpInput.RemoveListener(Jump);
+        EventManager.Instance.EventAttackInput.RemoveListener(SpecialAttack);
         CharacterMeshObject.gameObject.SetActive(false);
         isCurrentGolem = false;
     }
 
     public void UpdateAnimationState()
     {
+        if (isAttacking)
+        {
+            ActiveState = ObjectStates.AttackOne;
+            return;
+        }
         if (!isMoving)
         {
             ActiveState = ObjectStates.Idle;
@@ -73,17 +85,44 @@ public abstract class Character : AnimatedObject
         }
     }
 
+    public void CreateAttackHitbox()
+    {
+
+    }
+
+    public void AttackResetMethod()
+    {
+        if (isAttacking)
+        {
+            attackCooldownTimer -= Time.deltaTime;
+            if (attackCooldownTimer <= 0.0f)
+            {
+                CreateAttackHitbox();
+                isAttacking = false;
+                attackCooldownTimer = GolemDataObject.AttackCooldown;
+            }
+        }
+    }
+
+    public virtual void SpecialAttack(bool value)
+    {
+        if (value && attackCooldownTimer == GolemDataObject.AttackCooldown)
+        {
+            isAttacking = true;
+        }
+    }
+
     public virtual void Move(float input)
     {
-        if (input == 0)
-        {
-            isMoving = false;
-        }
         if (Rigidbody.velocity.x > GolemDataObject.MaxMoveSpeed && input > 0 || Rigidbody.velocity.x < -GolemDataObject.MaxMoveSpeed && input < 0)
         {
             return;
         }
-        Rigidbody.AddForce(new Vector3(input * GolemDataObject.MoveSpeedMultiplier, 0, 0));
+        if (input == 0)
+        {
+            isMoving = false;
+        }
+        Rigidbody.AddForce(new Vector3(input * GolemDataObject.MoveSpeedMultiplier * Time.fixedDeltaTime, 0, 0));
         if (input != 0)
         {
             isMoving = true;
@@ -107,7 +146,7 @@ public abstract class Character : AnimatedObject
     {
         if (canJump && jumpDuration > 0.0f && isJumping)
         {
-            Rigidbody.AddForce(new Vector3(0, GolemDataObject.JumpSpeed, 0));
+            Rigidbody.AddForce(new Vector3(0, GolemDataObject.JumpSpeed * Time.fixedDeltaTime, 0));
             jumpDuration -= Time.deltaTime;
             if (jumpDuration < 0.0f)
             {
