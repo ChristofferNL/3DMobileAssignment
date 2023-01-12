@@ -10,7 +10,7 @@ public abstract class Character : AnimatedObject
     public GameObject CharacterMeshObject;
     public override Dictionary<ObjectStates, AnimationClip> AnimationValuePairs { get; set; }
 
-    private Transform attackSpawnLocation;
+    protected Transform attackSpawnLocation;
 
     private float JumpDurationStartTime;
     private float jumpDuration;
@@ -19,7 +19,7 @@ public abstract class Character : AnimatedObject
     private bool isMoving;
     private bool isCurrentGolem;
     private bool isAttacking;
-    private bool isMovingRight;
+    protected bool isMovingRight;
 
     private void Awake()
     {
@@ -90,12 +90,8 @@ public abstract class Character : AnimatedObject
         }
     }
 
-    public void CreateAttackHitbox()
-    {
-        GameObject clone = Instantiate(GolemDataObject.AttackProjectileObject, attackSpawnLocation.position, Quaternion.identity);
-        clone.AddComponent<FlyingRock>();
-        clone.GetComponent<FlyingRock>().SendRockFlying(isMovingRight, Rigidbody.velocity.x);
-    }
+    public abstract void CreateAttackHitbox();
+
 
     public void AttackResetMethod()
     {
@@ -107,11 +103,13 @@ public abstract class Character : AnimatedObject
                 CreateAttackHitbox();
                 isAttacking = false;
                 attackCooldownTimer = GolemDataObject.AttackCooldown;
+                ActiveState = ObjectStates.Idle;
+                CheckAnimationState();
             }
         }
     }
 
-    public virtual void SpecialAttack(bool value)
+    public void SpecialAttack(bool value)
     {
         if (value && attackCooldownTimer == GolemDataObject.AttackCooldown)
         {
@@ -129,7 +127,7 @@ public abstract class Character : AnimatedObject
         {
             isMoving = false;
         }
-        Rigidbody.AddForce(new Vector3(input * GolemDataObject.MoveSpeedMultiplier * Time.fixedDeltaTime, 0, 0));
+        Rigidbody.AddForce(new Vector3(input * GolemDataObject.MoveSpeedMultiplier * Time.deltaTime, 0, 0));
         if (input != 0)
         {
             isMoving = true;
@@ -155,7 +153,7 @@ public abstract class Character : AnimatedObject
     {
         if (canJump && jumpDuration > 0.0f && isJumping)
         {
-            Rigidbody.AddForce(new Vector3(0, GolemDataObject.JumpSpeed * Time.fixedDeltaTime, 0));
+            Rigidbody.AddForce(new Vector3(0, GolemDataObject.JumpSpeed * Time.deltaTime, 0));
             jumpDuration -= Time.deltaTime;
             if (jumpDuration < 0.0f)
             {

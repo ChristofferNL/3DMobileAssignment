@@ -12,11 +12,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fb10c523f7d286d469a987b5d7f47f45, type: 3}
   m_Name: GrayGolemData
   m_EditorClassIdentifier: 
-  MoveSpeedMultiplier: 70
-  MaxMoveSpeed: 80
+  MoveSpeedMultiplier: 900
+  MaxMoveSpeed: 10
   JumpDuration: 0.4
-  JumpSpeed: 130
-  AttackCooldown: 3
+  JumpSpeed: 2000
+  AttackCooldown: 1.2
   AttackProjectileObject: {fileID: 5298590762127773683, guid: cad9f745870d9f448bf225d2a253d382,
     type: 3}
   IdleAnim: {fileID: 7400000, guid: e724ee346f18e7e43b5b92571f02faa1, type: 2}
