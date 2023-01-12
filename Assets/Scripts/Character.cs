@@ -10,6 +10,8 @@ public abstract class Character : AnimatedObject
     public GameObject CharacterMeshObject;
     public override Dictionary<ObjectStates, AnimationClip> AnimationValuePairs { get; set; }
 
+    private Transform attackSpawnLocation;
+
     private float JumpDurationStartTime;
     private float jumpDuration;
     private float attackCooldownTimer;
@@ -17,6 +19,7 @@ public abstract class Character : AnimatedObject
     private bool isMoving;
     private bool isCurrentGolem;
     private bool isAttacking;
+    private bool isMovingRight;
 
     private void Awake()
     {
@@ -32,6 +35,8 @@ public abstract class Character : AnimatedObject
         JumpDurationStartTime = GolemDataObject.JumpDuration;
         jumpDuration = GolemDataObject.JumpDuration;
         attackCooldownTimer = GolemDataObject.AttackCooldown;
+        attackSpawnLocation = GameObject.Find("AttackBoxLocation").transform;
+        isMovingRight = true;
     }
 
     private void Update()
@@ -87,7 +92,9 @@ public abstract class Character : AnimatedObject
 
     public void CreateAttackHitbox()
     {
-
+        GameObject clone = Instantiate(GolemDataObject.AttackProjectileObject, attackSpawnLocation.position, Quaternion.identity);
+        clone.AddComponent<FlyingRock>();
+        clone.GetComponent<FlyingRock>().SendRockFlying(isMovingRight, Rigidbody.velocity.x);
     }
 
     public void AttackResetMethod()
@@ -135,10 +142,12 @@ public abstract class Character : AnimatedObject
         if (xInput >= 0)
         {
             CharacterMeshObject.transform.rotation = Quaternion.Euler(0, 90, 0);
+            isMovingRight = true;
         }
         else
         {
             CharacterMeshObject.transform.rotation = Quaternion.Euler(0, 270, 0);
+            isMovingRight = false;
         }
     }
 

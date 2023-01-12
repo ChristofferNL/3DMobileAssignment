@@ -17,7 +17,8 @@ MonoBehaviour:
   JumpDuration: 0.4
   JumpSpeed: 130
   AttackCooldown: 3
-  AttackProjectileObject: {fileID: 0}
+  AttackProjectileObject: {fileID: 1260152368072798, guid: 4bf449b1b6e781140a548b42020600f6,
+    type: 3}
   IdleAnim: {fileID: 7400000, guid: e724ee346f18e7e43b5b92571f02faa1, type: 2}
   WalkAnim: {fileID: 7400000, guid: 55033e9d49b386b4eade59453a1d2618, type: 2}
   AttackAnim: {fileID: 7400000, guid: 9f23e57bf11c2e94cbdf8ed453e738cd, type: 2}
