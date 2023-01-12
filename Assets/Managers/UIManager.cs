@@ -8,7 +8,6 @@ public class UIManager : MonoBehaviour
 {
     public static UIManager Instance;
     public Button ChangeGolemButton;
-    public UnityEvent EventChangeGolem;
     public Button ChangeEquipmentButton;
     public Button JumpButton;
     public Button MoveRightButton;
@@ -20,5 +19,11 @@ public class UIManager : MonoBehaviour
         {
             Instance = this;
         }
+        JumpButton.onClick.AddListener(ExecuteJump);
+    }
+    
+    public void ExecuteJump()
+    {
+        EventManager.Instance.JumpInputEvent(true);
     }
 }

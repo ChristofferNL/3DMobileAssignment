@@ -6,7 +6,7 @@ using UnityEngine.Events;
 public class EventManager : MonoBehaviour
 {
     public static EventManager Instance;
-    public UnityEvent<Vector2> EventMoveInput;
+    public UnityEvent<float> EventMoveInput;
     public UnityEvent<bool> EventJumpInput;
 
     private void Awake()
@@ -17,7 +17,7 @@ public class EventManager : MonoBehaviour
         }
     }
 
-    public void MoveInputEvent(Vector2 input)
+    public void MoveInputEvent(float input)
     {
         EventMoveInput.Invoke(input);
     }

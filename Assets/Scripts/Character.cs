@@ -36,13 +36,13 @@ public abstract class Character : AnimatedObject
         {
             UpdateAnimationState();
             CheckAnimationState();
-        }     
+        }
     }
 
     public void InitializeGolem()
     {
         EventManager.Instance.EventMoveInput.AddListener(Move);
-        EventManager.Instance.EventJumpInput.AddListener(Jump);      
+        EventManager.Instance.EventJumpInput.AddListener(Jump);
         CharacterMeshObject.gameObject.SetActive(true);
         isCurrentGolem = true;
         if (Rigidbody.velocity.y != 0)
@@ -73,21 +73,21 @@ public abstract class Character : AnimatedObject
         }
     }
 
-    public virtual void Move(Vector2 input)
+    public virtual void Move(float input)
     {
-        if (Rigidbody.velocity.x > GolemDataObject.MaxMoveSpeed && input.x > 0 || Rigidbody.velocity.x < -GolemDataObject.MaxMoveSpeed && input.x < 0)
+        if (input == 0)
+        {
+            isMoving = false;
+        }
+        if (Rigidbody.velocity.x > GolemDataObject.MaxMoveSpeed && input > 0 || Rigidbody.velocity.x < -GolemDataObject.MaxMoveSpeed && input < 0)
         {
             return;
         }
-        Rigidbody.AddForce(new Vector3(input.x * GolemDataObject.MoveSpeedMultiplier, 0, 0));
-        if (input.x != 0)
+        Rigidbody.AddForce(new Vector3(input * GolemDataObject.MoveSpeedMultiplier, 0, 0));
+        if (input != 0)
         {
             isMoving = true;
-            RotateGolem(input.x);
-        }
-        else
-        {
-            isMoving = false;
+            RotateGolem(input);
         }
     }
 
@@ -109,7 +109,6 @@ public abstract class Character : AnimatedObject
         {
             Rigidbody.AddForce(new Vector3(0, GolemDataObject.JumpSpeed, 0));
             jumpDuration -= Time.deltaTime;
-            Debug.Log("Jumping");
             if (jumpDuration < 0.0f)
             {
                 canJump = false;
