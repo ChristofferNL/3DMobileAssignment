@@ -9,6 +9,7 @@ public class EventManager : MonoBehaviour
     public UnityEvent<float> EventMoveInput;
     public UnityEvent<bool> EventJumpInput;
     public UnityEvent<bool> EventAttackInput;
+    public UnityEvent<ParticleSystem, Vector3> EventPlayParticle;
 
     private void Awake()
     {
@@ -16,6 +17,12 @@ public class EventManager : MonoBehaviour
         {
             Instance = this;
         }
+    }
+
+    public void ParticlePlayEvent(ParticleSystem particleSystem, Vector3 position)
+    {
+        EventPlayParticle.Invoke(particleSystem, position);
+        ParticleSystem particle = Instantiate(particleSystem, position, Quaternion.identity);
     }
 
     public void AttackInputEvent(bool isAttacking)

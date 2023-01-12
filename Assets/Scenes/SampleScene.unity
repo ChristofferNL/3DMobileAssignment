@@ -6503,6 +6503,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   characters: []
+  ChangeGolemEffect: {fileID: 7226888052703040407, guid: 7ec363c8df426644ea85f8d6d570561c,
+    type: 3}
   ActiveGolem: 0
 --- !u!114 &460113672
 MonoBehaviour:
@@ -6518,6 +6520,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   GolemDataObject: {fileID: 11400000, guid: c0f2331a685ca934a9accf082ac35033, type: 2}
   CharacterMeshObject: {fileID: 939989903}
+  isAttacking: 0
 --- !u!114 &460113673
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6532,6 +6535,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   GolemDataObject: {fileID: 11400000, guid: e76eaf66ca5fa8a48967156fefb8b93c, type: 2}
   CharacterMeshObject: {fileID: 494931776}
+  isAttacking: 0
 --- !u!114 &460113674
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6546,6 +6550,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   GolemDataObject: {fileID: 11400000, guid: 0f5d6d7ebdeda9048ac3aee3ca3e949d, type: 2}
   CharacterMeshObject: {fileID: 347874808}
+  isAttacking: 0
 --- !u!1001 &464375804
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -16467,6 +16472,9 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   EventAttackInput:
+    m_PersistentCalls:
+      m_Calls: []
+  EventPlayParticle:
     m_PersistentCalls:
       m_Calls: []
 --- !u!4 &1019522438
@@ -33472,7 +33480,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4003897846794392, guid: cd87e5026d1695148aabe96121c526ef, type: 3}
       propertyPath: m_LocalPosition.z
-      value: -0.95
+      value: -1.05
       objectReference: {fileID: 0}
     - target: {fileID: 4003897846794392, guid: cd87e5026d1695148aabe96121c526ef, type: 3}
       propertyPath: m_LocalRotation.w

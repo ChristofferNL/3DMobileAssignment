@@ -10,6 +10,8 @@ public class CharacterStateMachine : MonoBehaviour
 
     public List<Character> characters = new();
 
+    public ParticleSystem ChangeGolemEffect;
+
     public enum GolemState { Black, Green, Grey };
     public GolemState ActiveGolem;
 
@@ -53,6 +55,7 @@ public class CharacterStateMachine : MonoBehaviour
                 ActiveGolem = (GolemState)Random.Range(0, 3);
             } while (startingGolem == (int)ActiveGolem);
             InitializeGolem((int)ActiveGolem);
+            EventManager.Instance.ParticlePlayEvent(ChangeGolemEffect, new Vector3(transform.position.x, transform.position.y, transform.position.z -4));
         }   
     }
 }

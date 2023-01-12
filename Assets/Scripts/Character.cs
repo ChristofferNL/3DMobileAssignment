@@ -8,6 +8,7 @@ public abstract class Character : AnimatedObject
 
     public CharacterDataSO GolemDataObject;
     public GameObject CharacterMeshObject;
+
     public override Dictionary<ObjectStates, AnimationClip> AnimationValuePairs { get; set; }
 
     protected Transform attackSpawnLocation;

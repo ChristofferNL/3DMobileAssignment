@@ -6,6 +6,8 @@ public class DestrucibleObject : MonoBehaviour
 {
     public int HitPoints;
 
+    public ParticleSystem ParticleSystem;
+
     public void Die()
     {
         Destroy(this.gameObject);
@@ -16,6 +18,7 @@ public class DestrucibleObject : MonoBehaviour
         HitPoints--;
         if (HitPoints <= 0)
         {
+            EventManager.Instance.ParticlePlayEvent(ParticleSystem, transform.position);
             Die();
         }
     }
