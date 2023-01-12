@@ -45,11 +45,14 @@ public class CharacterStateMachine : MonoBehaviour
 
     public void ChangeGolem()
     {
-        int startingGolem = (int)ActiveGolem;
-        do
+        if (!characters[(int)ActiveGolem].isAttacking)
         {
-            ActiveGolem = (GolemState)Random.Range(0, 3);
-        } while (startingGolem == (int)ActiveGolem);
-        InitializeGolem((int)ActiveGolem);
+            int startingGolem = (int)ActiveGolem;
+            do
+            {
+                ActiveGolem = (GolemState)Random.Range(0, 3);
+            } while (startingGolem == (int)ActiveGolem);
+            InitializeGolem((int)ActiveGolem);
+        }   
     }
 }

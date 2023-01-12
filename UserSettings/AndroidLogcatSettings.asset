@@ -3,7 +3,7 @@
     "m_SelectedPackage": {
         "deviceId": "9WV4C18611000225",
         "name": "com.knuckcompany.golemgame",
-        "processId": 21584,
+        "processId": 24448,
         "exited": false
     },
     "m_SelectedPriority": 0,
@@ -24,6 +24,12 @@
             "deviceId": "9WV4C18611000225",
             "name": "com.knuckcompany.golemgame",
             "processId": 21584,
+            "exited": false
+        },
+        {
+            "deviceId": "9WV4C18611000225",
+            "name": "com.knuckcompany.golemgame",
+            "processId": 24448,
             "exited": false
         }
     ],

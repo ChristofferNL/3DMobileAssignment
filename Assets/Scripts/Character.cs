@@ -18,7 +18,7 @@ public abstract class Character : AnimatedObject
     private bool canJump;
     private bool isMoving;
     private bool isCurrentGolem;
-    private bool isAttacking;
+    public bool isAttacking;
     protected bool isMovingRight;
 
     private void Awake()

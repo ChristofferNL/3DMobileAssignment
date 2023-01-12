@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 33150919666518030}
   - component: {fileID: 23959816328617694}
   - component: {fileID: 8431167351992701300}
+  - component: {fileID: -5694579229455757113}
   m_Layer: 0
   m_Name: rpgpp_lt_building_01
   m_TagString: Untagged
@@ -97,3 +98,17 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   HitPoints: 2
+--- !u!64 &-5694579229455757113
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1640908652775104}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 4
+  m_Convex: 0
+  m_CookingOptions: 30
+  m_Mesh: {fileID: 4300000, guid: af5390e2a0373984db3740f21c0ec034, type: 3}
