@@ -11,13 +11,20 @@ public class CharacterStateMachine : MonoBehaviour
     public List<Character> characters = new();
 
     public ParticleSystem ChangeGolemEffect;
+    private ParticleSystem ActiveBuffEffect;
+
+    public List<CharacterBuffSO> Buffs = new();
 
     public enum GolemState { Black, Green, Grey };
     public GolemState ActiveGolem;
 
+    public enum GolemBuffs { FireAura, CrushingLanding }
+    public GolemBuffs ActiveBuff;
+
     private void Awake()
     {
         UIManager.Instance.ChangeGolemButton.onClick.AddListener(ChangeGolem);
+        UIManager.Instance.ChangeEquipmentButton.onClick.AddListener(ChangeBuff);
     }
     private void Start()
     {
@@ -28,6 +35,7 @@ public class CharacterStateMachine : MonoBehaviour
         characters.Add(greenGolem);
         characters.Add(greyGolem);
         ChangeGolem();
+        SetRandomBuff();
     }
 
     public void InitializeGolem(int index)
@@ -57,5 +65,53 @@ public class CharacterStateMachine : MonoBehaviour
             InitializeGolem((int)ActiveGolem);
             EventManager.Instance.ParticlePlayEvent(ChangeGolemEffect, new Vector3(transform.position.x, transform.position.y, transform.position.z -4));
         }   
+    }
+
+    public void ActivateBuff(CharacterBuffSO characterBuffSO)
+    {
+        if (characterBuffSO.IsStatic)
+        {
+            if (ActiveBuffEffect != null)
+            {
+                ActiveBuffEffect.Play();
+                return;
+            }
+            ParticleSystem effect = characterBuffSO.BuffEffect;
+            ParticleSystem particle = Instantiate(effect, new Vector3(transform.position.x, transform.position.y + characterBuffSO.ParticleYOffset, transform.position.z), Quaternion.identity);
+            particle.transform.parent = FindObjectOfType<CharacterStateMachine>().transform;
+            ActiveBuffEffect = particle;
+        }
+    }
+
+    public void DeactivateBuff(CharacterBuffSO characterBuffSO)
+    {
+        if (characterBuffSO.IsStatic)
+        {
+            Destroy(ActiveBuffEffect.gameObject);
+        }
+    }
+
+    public void SetRandomBuff()
+    {
+        ActiveBuff = (GolemBuffs)Random.Range(0, 2);
+        ActivateBuff(Buffs[(int)ActiveBuff]);
+    }
+
+    public void ChangeBuff()
+    {
+        if ((int)ActiveBuff == 0)
+        {
+            DeactivateBuff(Buffs[0]);
+            ActivateBuff(Buffs[1]);
+                       
+            ActiveBuff = (GolemBuffs)1;
+        }
+        else
+        {
+            DeactivateBuff(Buffs[1]);
+            ActivateBuff(Buffs[0]);
+            
+            ActiveBuff = 0;
+        }
     }
 }

@@ -9,6 +9,8 @@ public abstract class Character : AnimatedObject
     public CharacterDataSO GolemDataObject;
     public GameObject CharacterMeshObject;
 
+    private CharacterStateMachine stateMachine;
+
     public override Dictionary<ObjectStates, AnimationClip> AnimationValuePairs { get; set; }
 
     protected Transform attackSpawnLocation;
@@ -19,6 +21,7 @@ public abstract class Character : AnimatedObject
     private bool canJump;
     private bool isMoving;
     private bool isCurrentGolem;
+    private bool isGrounded;
     public bool isAttacking;
     protected bool isMovingRight;
 
@@ -26,6 +29,7 @@ public abstract class Character : AnimatedObject
     {
         Rigidbody = GetComponent<Rigidbody>();
         Animator = GetComponentInChildren<Animator>();
+        stateMachine = GetComponent<CharacterStateMachine>();
         CharacterMeshObject.gameObject.SetActive(false);
         AnimationValuePairs = new Dictionary<ObjectStates, AnimationClip>()
         {
@@ -79,7 +83,7 @@ public abstract class Character : AnimatedObject
             ActiveState = ObjectStates.AttackOne;
             return;
         }
-        if (!isMoving)
+        if (!isMoving || !isGrounded)
         {
             ActiveState = ObjectStates.Idle;
             return;
@@ -120,17 +124,28 @@ public abstract class Character : AnimatedObject
 
     public virtual void Move(float input)
     {
-        if (Rigidbody.velocity.x > GolemDataObject.MaxMoveSpeed && input > 0 || Rigidbody.velocity.x < -GolemDataObject.MaxMoveSpeed && input < 0)
+        if (Rigidbody.velocity.x > GolemDataObject.MaxMoveSpeed && input > 0 || Rigidbody.velocity.x < -GolemDataObject.MaxMoveSpeed && input < 0 || !isGrounded)
         {
+            Rigidbody.drag = 0;
             return;
         }
         if (input == 0)
         {
             isMoving = false;
+            if (isGrounded)
+            {
+                Rigidbody.drag = 10;
+            }
+            else
+            {
+                Rigidbody.drag = 0;
+            }
+            
         }
-        Rigidbody.AddForce(new Vector3(input * GolemDataObject.MoveSpeedMultiplier * Time.deltaTime, 0, 0));
+        Rigidbody.AddForce(new Vector3(input * (GolemDataObject.MoveSpeedMultiplier + stateMachine.Buffs[(int)stateMachine.ActiveBuff].MoveSpeedModifier) * Time.deltaTime, 0, 0));
         if (input != 0)
         {
+            Rigidbody.drag = 0;
             isMoving = true;
             RotateGolem(input);
         }
@@ -154,7 +169,7 @@ public abstract class Character : AnimatedObject
     {
         if (canJump && jumpDuration > 0.0f && isJumping)
         {
-            Rigidbody.AddForce(new Vector3(0, GolemDataObject.JumpSpeed * Time.deltaTime, 0));
+            Rigidbody.AddForce(new Vector3(0, (GolemDataObject.JumpSpeed + stateMachine.Buffs[(int)stateMachine.ActiveBuff].JumpSpeedModifier) * Time.deltaTime, 0));
             jumpDuration -= Time.deltaTime;
             if (jumpDuration < 0.0f)
             {
@@ -166,5 +181,14 @@ public abstract class Character : AnimatedObject
     {
         canJump = true;
         jumpDuration = JumpDurationStartTime;
+    }
+
+    private void OnCollisionStay(Collision collision)
+    {
+        isGrounded = true;
+    }
+    private void OnCollisionExit(Collision collision)
+    {
+        isGrounded = false;
     }
 }

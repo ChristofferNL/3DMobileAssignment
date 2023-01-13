@@ -11,6 +11,7 @@ public class InputManager : MonoBehaviour
     {
         inputActions = new();
         playerActions = inputActions.PlayerActionMap;
+        Application.targetFrameRate = 60;
     }
 
     private void OnEnable()
