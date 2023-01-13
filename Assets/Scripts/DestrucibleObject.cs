@@ -6,20 +6,25 @@ public class DestrucibleObject : MonoBehaviour
 {
     public int HitPoints;
 
-    public ParticleSystem ParticleSystem;
+    public ParticleSystem DestroyedParticleEffect;
+    public ParticleSystem HitParticleEffect;
 
     public void Die()
     {
         Destroy(this.gameObject);
     }
 
-    private void TakeDamage()
+    private void TakeDamage(Vector3 hitPosition)
     {
         HitPoints--;
         if (HitPoints <= 0)
         {
-            EventManager.Instance.ParticlePlayEvent(ParticleSystem, transform.position);
+            EventManager.Instance.ParticlePlayEvent(DestroyedParticleEffect, transform.position);
             Die();
+        }
+        else
+        {
+            EventManager.Instance.ParticlePlayEvent(HitParticleEffect, hitPosition);
         }
     }
 
@@ -27,7 +32,7 @@ public class DestrucibleObject : MonoBehaviour
     {
         if (collision.gameObject.CompareTag("Attack"))
         {
-            TakeDamage();
+            TakeDamage(collision.contacts[0].point);
         }
     }
 
@@ -35,7 +40,7 @@ public class DestrucibleObject : MonoBehaviour
     {
         if (other.gameObject.CompareTag("Attack"))
         {
-            TakeDamage();
+            TakeDamage(other.ClosestPoint(transform.position));
         }
     }
 }
