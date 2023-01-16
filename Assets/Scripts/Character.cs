@@ -15,15 +15,18 @@ public abstract class Character : AnimatedObject
 
     protected Transform attackSpawnLocation;
 
+    [SerializeField] private float groundCheckDistance; 
     private float JumpDurationStartTime;
-    private float jumpDuration;
+    public float jumpDuration;
     private float attackCooldownTimer;
-    private bool canJump;
+    public bool canJump;
+    public bool currentlyJumping;
     private bool isMoving;
     private bool isCurrentGolem;
-    private bool isGrounded;
+    public bool isGrounded;
     public bool isAttacking;
     protected bool isMovingRight;
+    private RaycastHit ray;
 
     private void Awake()
     {
@@ -51,7 +54,17 @@ public abstract class Character : AnimatedObject
             UpdateAnimationState();
             CheckAnimationState();
             AttackResetMethod();
+            if (!isGrounded)
+            {
+                GroundChecker();
+            }    
         }
+        
+    }
+
+    private void FixedUpdate()
+    {
+        //GroundChecker();
     }
 
     public void InitializeGolem()
@@ -97,6 +110,20 @@ public abstract class Character : AnimatedObject
 
     public abstract void CreateAttackHitbox();
 
+    public void GroundChecker()
+    {
+        if (Physics.Raycast(transform.position, transform.TransformDirection(Vector3.down), out ray, groundCheckDistance)) 
+        {
+            isGrounded = true;
+            canJump = true;
+            jumpDuration = JumpDurationStartTime;
+        }
+        else
+        {
+            isGrounded = false;
+        };
+        
+    }
 
     public void AttackResetMethod()
     {
@@ -132,15 +159,11 @@ public abstract class Character : AnimatedObject
         if (input == 0)
         {
             isMoving = false;
-            if (isGrounded)
+            Rigidbody.drag = 0;
+            if (isGrounded && !currentlyJumping)
             {
                 Rigidbody.drag = 10;
-            }
-            else
-            {
-                Rigidbody.drag = 0;
-            }
-            
+            }           
         }
         Rigidbody.AddForce(new Vector3(input * (GolemDataObject.MoveSpeedMultiplier + stateMachine.Buffs[(int)stateMachine.ActiveBuff].MoveSpeedModifier) * Time.deltaTime, 0, 0));
         if (input != 0)
@@ -167,28 +190,29 @@ public abstract class Character : AnimatedObject
 
     public virtual void Jump(bool isJumping)
     {
+        if (!isJumping)
+        {
+            currentlyJumping = false;
+        }
         if (canJump && jumpDuration > 0.0f && isJumping)
         {
+            Rigidbody.drag = 0;
             Rigidbody.AddForce(new Vector3(0, (GolemDataObject.JumpSpeed + stateMachine.Buffs[(int)stateMachine.ActiveBuff].JumpSpeedModifier) * Time.deltaTime, 0));
             jumpDuration -= Time.deltaTime;
+            currentlyJumping = true;
+            isGrounded = false;
             if (jumpDuration < 0.0f)
             {
                 canJump = false;
+                currentlyJumping = false;
+                
             }
         }
     }
     private void OnCollisionEnter(Collision collision)
     {
+        isGrounded = true;
         canJump = true;
         jumpDuration = JumpDurationStartTime;
-    }
-
-    private void OnCollisionStay(Collision collision)
-    {
-        isGrounded = true;
-    }
-    private void OnCollisionExit(Collision collision)
-    {
-        isGrounded = false;
     }
 }
