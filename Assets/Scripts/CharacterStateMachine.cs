@@ -83,13 +83,13 @@ public class CharacterStateMachine : MonoBehaviour
         }
         else
         {
-            ActiveBuffEffect = characterBuffSO.BuffEffect;
+
         }
     }
 
     public void DeactivateBuff(CharacterBuffSO characterBuffSO)
     {
-        if (characterBuffSO.IsStatic)
+        if (characterBuffSO.IsStatic && ActiveBuffEffect.gameObject != null)
         {
             Destroy(ActiveBuffEffect.gameObject);
         }
@@ -112,10 +112,10 @@ public class CharacterStateMachine : MonoBehaviour
         }
         else
         {
-            DeactivateBuff(Buffs[1]);
+            //DeactivateBuff(Buffs[1]);
             ActivateBuff(Buffs[0]);
             
-            ActiveBuff = 0;
+            ActiveBuff = (GolemBuffs)0;
         }
     }
 }

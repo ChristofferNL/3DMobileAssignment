@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -19,8 +20,9 @@ public abstract class Character : AnimatedObject
     private float JumpDurationStartTime;
     public float jumpDuration;
     private float attackCooldownTimer;
+    private float fireAuraTimer;
     private Vector3 velocityBeforePhysicsUpdate;
-    private int groundExplosionsCounter;
+    private int groundExplosionsCounter = 0;
     public bool canJump;
     public bool currentlyJumping;
     private bool isMoving;
@@ -56,12 +58,26 @@ public abstract class Character : AnimatedObject
             UpdateAnimationState();
             CheckAnimationState();
             AttackResetMethod();
+            UpdateFireAura();
             if (!isGrounded)
             {
                 GroundChecker();
             }    
         }
         
+    }
+
+    private void UpdateFireAura()
+    {
+        if (stateMachine.ActiveBuff == 0)
+        {
+            fireAuraTimer += Time.deltaTime;
+            if (fireAuraTimer > 2)
+            {
+                fireAuraTimer = 0;
+                GameObject clone = Instantiate(GetComponent<CharacterGreyGolem>().GolemDataObject.AttackProjectileObject, new Vector3(transform.position.x, transform.position.y, transform.position.z), Quaternion.identity);
+            }
+        }
     }
 
     private void FixedUpdate()
@@ -215,12 +231,12 @@ public abstract class Character : AnimatedObject
     private void OnCollisionEnter(Collision collision)
     {
         
-        if (velocityBeforePhysicsUpdate.y < -10f && stateMachine.ActiveBuff == CharacterStateMachine.GolemBuffs.CrushingLanding && groundExplosionsCounter == 0)
+        if (velocityBeforePhysicsUpdate.y < -15f && stateMachine.ActiveBuff == CharacterStateMachine.GolemBuffs.CrushingLanding && groundExplosionsCounter == 0)
         {
+            velocityBeforePhysicsUpdate.y = 0;
             groundExplosionsCounter++;
-            Debug.Log(velocityBeforePhysicsUpdate.y);
             GameObject clone = Instantiate(GetComponent<CharacterGreyGolem>().GolemDataObject.AttackProjectileObject, new Vector3(transform.position.x, transform.position.y - 1, transform.position.z), Quaternion.identity);
-            EventManager.Instance.ParticlePlayEvent(stateMachine.ActiveBuffEffect, new Vector3(transform.position.x, transform.position.y - 1, transform.position.z));
+            EventManager.Instance.ParticlePlayEvent(stateMachine.Buffs[1].BuffEffect, new Vector3(transform.position.x, transform.position.y - 1, transform.position.z));
         }
         isGrounded = true;
         canJump = true;
