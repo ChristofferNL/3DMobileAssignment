@@ -11,7 +11,7 @@ public class CharacterStateMachine : MonoBehaviour
     public List<Character> characters = new();
 
     public ParticleSystem ChangeGolemEffect;
-    private ParticleSystem ActiveBuffEffect;
+    public ParticleSystem ActiveBuffEffect;
 
     public List<CharacterBuffSO> Buffs = new();
 
@@ -80,6 +80,10 @@ public class CharacterStateMachine : MonoBehaviour
             ParticleSystem particle = Instantiate(effect, new Vector3(transform.position.x, transform.position.y + characterBuffSO.ParticleYOffset, transform.position.z), Quaternion.identity);
             particle.transform.parent = FindObjectOfType<CharacterStateMachine>().transform;
             ActiveBuffEffect = particle;
+        }
+        else
+        {
+            ActiveBuffEffect = characterBuffSO.BuffEffect;
         }
     }
 

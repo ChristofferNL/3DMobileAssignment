@@ -19,6 +19,8 @@ public abstract class Character : AnimatedObject
     private float JumpDurationStartTime;
     public float jumpDuration;
     private float attackCooldownTimer;
+    private Vector3 velocityBeforePhysicsUpdate;
+    private int groundExplosionsCounter;
     public bool canJump;
     public bool currentlyJumping;
     private bool isMoving;
@@ -64,7 +66,7 @@ public abstract class Character : AnimatedObject
 
     private void FixedUpdate()
     {
-        //GroundChecker();
+        velocityBeforePhysicsUpdate = Rigidbody.velocity;
     }
 
     public void InitializeGolem()
@@ -196,6 +198,7 @@ public abstract class Character : AnimatedObject
         }
         if (canJump && jumpDuration > 0.0f && isJumping)
         {
+            groundExplosionsCounter = 0;
             Rigidbody.drag = 0;
             Rigidbody.AddForce(new Vector3(0, (GolemDataObject.JumpSpeed + stateMachine.Buffs[(int)stateMachine.ActiveBuff].JumpSpeedModifier) * Time.deltaTime, 0));
             jumpDuration -= Time.deltaTime;
@@ -211,6 +214,14 @@ public abstract class Character : AnimatedObject
     }
     private void OnCollisionEnter(Collision collision)
     {
+        
+        if (velocityBeforePhysicsUpdate.y < -10f && stateMachine.ActiveBuff == CharacterStateMachine.GolemBuffs.CrushingLanding && groundExplosionsCounter == 0)
+        {
+            groundExplosionsCounter++;
+            Debug.Log(velocityBeforePhysicsUpdate.y);
+            GameObject clone = Instantiate(GetComponent<CharacterGreyGolem>().GolemDataObject.AttackProjectileObject, new Vector3(transform.position.x, transform.position.y - 1, transform.position.z), Quaternion.identity);
+            EventManager.Instance.ParticlePlayEvent(stateMachine.ActiveBuffEffect, new Vector3(transform.position.x, transform.position.y - 1, transform.position.z));
+        }
         isGrounded = true;
         canJump = true;
         jumpDuration = JumpDurationStartTime;
