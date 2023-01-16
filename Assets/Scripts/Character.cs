@@ -72,7 +72,7 @@ public abstract class Character : AnimatedObject
         if (stateMachine.ActiveBuff == 0)
         {
             fireAuraTimer += Time.deltaTime;
-            if (fireAuraTimer > 2)
+            if (fireAuraTimer > 1.5f)
             {
                 fireAuraTimer = 0;
                 GameObject clone = Instantiate(GetComponent<CharacterGreyGolem>().GolemDataObject.AttackProjectileObject, new Vector3(transform.position.x, transform.position.y, transform.position.z), Quaternion.identity);
@@ -83,6 +83,10 @@ public abstract class Character : AnimatedObject
     private void FixedUpdate()
     {
         velocityBeforePhysicsUpdate = Rigidbody.velocity;
+        if (velocityBeforePhysicsUpdate.x == 0)
+        {
+            isMoving = false;
+        }
     }
 
     public void InitializeGolem()
@@ -181,7 +185,8 @@ public abstract class Character : AnimatedObject
             if (isGrounded && !currentlyJumping)
             {
                 Rigidbody.drag = 10;
-            }           
+            }
+            return;
         }
         Rigidbody.AddForce(new Vector3(input * (GolemDataObject.MoveSpeedMultiplier + stateMachine.Buffs[(int)stateMachine.ActiveBuff].MoveSpeedModifier) * Time.deltaTime, 0, 0));
         if (input != 0)

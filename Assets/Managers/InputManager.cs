@@ -26,8 +26,8 @@ public class InputManager : MonoBehaviour
 
     private void Update()
     {
-        EventManager.Instance.AttackInputEvent(playerActions.Attack.IsPressed());
-        EventManager.Instance.MoveInputEvent(playerActions.MovementActions.ReadValue<float>());
-        EventManager.Instance.JumpInputEvent(playerActions.Jump.IsPressed());
+        //EventManager.Instance.AttackInputEvent(playerActions.Attack.IsPressed());
+        //EventManager.Instance.MoveInputEvent(playerActions.MovementActions.ReadValue<float>());
+        //EventManager.Instance.JumpInputEvent(playerActions.Jump.IsPressed());
     }
 }
