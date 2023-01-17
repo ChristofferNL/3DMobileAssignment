@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.UI;
+using TMPro;
 
 public class UIManager : MonoBehaviour
 {
@@ -12,6 +13,7 @@ public class UIManager : MonoBehaviour
     public Button JumpButton;
     public Button SmashButton;
     public Button ExitGameButton;
+    public TextMeshProUGUI DestroyedBuildingsText;
 
     private void Awake()
     {
@@ -23,6 +25,11 @@ public class UIManager : MonoBehaviour
         ExitGameButton.onClick.AddListener(ExitApplication);
     }
     
+    public void SetDestroyedBuildingsText(int destroyedBuildings)
+    {
+        DestroyedBuildingsText.text = $"Buildings Destroyed: {destroyedBuildings.ToString()}";
+    }
+
     public void ExecuteJump()
     {
         EventManager.Instance.JumpInputEvent(true);
@@ -30,6 +37,7 @@ public class UIManager : MonoBehaviour
 
     public void ExitApplication()
     {
+        SaveManager.Instance.SaveData();
         Debug.Log("Exit Game");
         Application.Quit();
     }

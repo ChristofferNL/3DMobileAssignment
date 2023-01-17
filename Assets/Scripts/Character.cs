@@ -251,7 +251,7 @@ public abstract class Character : AnimatedObject
             groundExplosionsCounter++;
             GameObject clone = Instantiate(GetComponent<CharacterGreyGolem>().GolemDataObject.AttackProjectileObject, new Vector3(transform.position.x, transform.position.y - 1, transform.position.z), Quaternion.identity);
             EventManager.Instance.ParticlePlayEvent(stateMachine.Buffs[1].BuffEffect, new Vector3(transform.position.x, transform.position.y - 1, transform.position.z));
-            SoundManager.Instance.PlaySoundEffect(stateMachine.Buffs[1].BuffEffectSound, true);
+            SoundManager.Instance.PlaySoundEffect(stateMachine.Buffs[1].BuffEffectSound, false);
         }
         isGrounded = true;
         canJump = true;

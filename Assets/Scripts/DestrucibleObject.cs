@@ -25,6 +25,7 @@ public class DestrucibleObject : MonoBehaviour
             SoundManager.Instance.PlaySoundEffect(GettingHitSoundEffect, true);
             SoundManager.Instance.PlaySoundEffect(DestroyedSoundEffect, true);
             EventManager.Instance.ParticlePlayEvent(DestroyedParticleEffect, transform.position);
+            SaveManager.Instance.RecordBuildingDestroyed();
             Die();
         }
         else
