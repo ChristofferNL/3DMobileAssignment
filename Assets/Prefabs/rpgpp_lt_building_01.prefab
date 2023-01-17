@@ -102,6 +102,10 @@ MonoBehaviour:
     type: 3}
   HitParticleEffect: {fileID: 5880797563141009103, guid: 265d3a5ba69981a4698ceabcedf368b0,
     type: 3}
+  DestroyedSoundEffect: {fileID: 8300000, guid: e926222e8fef7b74bacc7a4ec6f69c74,
+    type: 3}
+  GettingHitSoundEffect: {fileID: 8300000, guid: f56027e81fe09954eb0b75109f926738,
+    type: 3}
 --- !u!64 &-5694579229455757113
 MeshCollider:
   m_ObjectHideFlags: 0

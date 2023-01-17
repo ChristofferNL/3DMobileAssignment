@@ -32,11 +32,14 @@ public abstract class Character : AnimatedObject
     protected bool isMovingRight;
     private RaycastHit ray;
 
+    public AudioClip MovementSound;
+
     private void Awake()
     {
         Rigidbody = GetComponent<Rigidbody>();
         Animator = GetComponentInChildren<Animator>();
         stateMachine = GetComponent<CharacterStateMachine>();
+        CharacterMeshObject.transform.rotation = Quaternion.Euler(0, 90, 0);
         CharacterMeshObject.gameObject.SetActive(false);
         AnimationValuePairs = new Dictionary<ObjectStates, AnimationClip>()
         {
@@ -168,6 +171,10 @@ public abstract class Character : AnimatedObject
         if (value && attackCooldownTimer == GolemDataObject.AttackCooldown)
         {
             isAttacking = true;
+            if (stateMachine.ActiveGolem == CharacterStateMachine.GolemState.Green)
+            {
+                SoundManager.Instance.PlaySoundEffect(GolemDataObject.AttackSoundEffekt, false);
+            }
         }
     }
 
@@ -244,6 +251,7 @@ public abstract class Character : AnimatedObject
             groundExplosionsCounter++;
             GameObject clone = Instantiate(GetComponent<CharacterGreyGolem>().GolemDataObject.AttackProjectileObject, new Vector3(transform.position.x, transform.position.y - 1, transform.position.z), Quaternion.identity);
             EventManager.Instance.ParticlePlayEvent(stateMachine.Buffs[1].BuffEffect, new Vector3(transform.position.x, transform.position.y - 1, transform.position.z));
+            SoundManager.Instance.PlaySoundEffect(stateMachine.Buffs[1].BuffEffectSound, true);
         }
         isGrounded = true;
         canJump = true;

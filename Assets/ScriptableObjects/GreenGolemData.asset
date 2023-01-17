@@ -22,3 +22,4 @@ MonoBehaviour:
   IdleAnim: {fileID: 7400000, guid: e724ee346f18e7e43b5b92571f02faa1, type: 2}
   WalkAnim: {fileID: 7400000, guid: 55033e9d49b386b4eade59453a1d2618, type: 2}
   AttackAnim: {fileID: 7400000, guid: 9f23e57bf11c2e94cbdf8ed453e738cd, type: 2}
+  AttackSoundEffekt: {fileID: 8300000, guid: cc73eb37ef66c6546b4c8ef7bdc9633d, type: 3}

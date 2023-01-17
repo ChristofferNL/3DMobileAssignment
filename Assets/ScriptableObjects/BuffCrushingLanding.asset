@@ -19,3 +19,4 @@ MonoBehaviour:
   JumpSpeedModifier: 500
   OnLanding: 1
   IsStatic: 0
+  BuffEffectSound: {fileID: 8300000, guid: 59df696ff7379464ab932e681c05a940, type: 3}

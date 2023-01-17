@@ -9,6 +9,9 @@ public class DestrucibleObject : MonoBehaviour
     public ParticleSystem DestroyedParticleEffect;
     public ParticleSystem HitParticleEffect;
 
+    public AudioClip DestroyedSoundEffect;
+    public AudioClip GettingHitSoundEffect;
+
     public void Die()
     {
         Destroy(this.gameObject);
@@ -19,11 +22,14 @@ public class DestrucibleObject : MonoBehaviour
         HitPoints--;
         if (HitPoints <= 0)
         {
+            SoundManager.Instance.PlaySoundEffect(GettingHitSoundEffect, true);
+            SoundManager.Instance.PlaySoundEffect(DestroyedSoundEffect, true);
             EventManager.Instance.ParticlePlayEvent(DestroyedParticleEffect, transform.position);
             Die();
         }
         else
         {
+            SoundManager.Instance.PlaySoundEffect(GettingHitSoundEffect, true);
             EventManager.Instance.ParticlePlayEvent(HitParticleEffect, hitPosition);
         }
     }

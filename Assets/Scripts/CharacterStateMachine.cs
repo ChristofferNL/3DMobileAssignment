@@ -64,6 +64,7 @@ public class CharacterStateMachine : MonoBehaviour
             } while (startingGolem == (int)ActiveGolem);
             InitializeGolem((int)ActiveGolem);
             EventManager.Instance.ParticlePlayEvent(ChangeGolemEffect, new Vector3(transform.position.x, transform.position.y, transform.position.z -4));
+            Debug.Log(ActiveGolem + "Golem is active");
         }   
     }
 
@@ -71,6 +72,7 @@ public class CharacterStateMachine : MonoBehaviour
     {
         if (characterBuffSO.IsStatic)
         {
+            Debug.Log("Fire Aura buff active!");
             if (ActiveBuffEffect != null)
             {
                 ActiveBuffEffect.Play();
@@ -83,7 +85,7 @@ public class CharacterStateMachine : MonoBehaviour
         }
         else
         {
-
+            Debug.Log("Crushing Landing buff active!");
         }
     }
 

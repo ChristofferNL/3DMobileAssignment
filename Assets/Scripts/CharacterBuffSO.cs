@@ -13,4 +13,6 @@ public class CharacterBuffSO : ScriptableObject
 
     public bool OnLanding;
     public bool IsStatic;
+
+    public AudioClip BuffEffectSound;
 }

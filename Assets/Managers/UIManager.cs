@@ -11,8 +11,7 @@ public class UIManager : MonoBehaviour
     public Button ChangeEquipmentButton;
     public Button JumpButton;
     public Button SmashButton;
-    public Button MoveRightButton;
-    public Button MoveLeftButton;
+    public Button ExitGameButton;
 
     private void Awake()
     {
@@ -21,10 +20,17 @@ public class UIManager : MonoBehaviour
             Instance = this;
         }
         JumpButton.onClick.AddListener(ExecuteJump);
+        ExitGameButton.onClick.AddListener(ExitApplication);
     }
     
     public void ExecuteJump()
     {
         EventManager.Instance.JumpInputEvent(true);
+    }
+
+    public void ExitApplication()
+    {
+        Debug.Log("Exit Game");
+        Application.Quit();
     }
 }

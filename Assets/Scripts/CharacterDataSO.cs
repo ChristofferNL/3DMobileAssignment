@@ -19,4 +19,6 @@ public class CharacterDataSO : ScriptableObject
     public AnimationClip IdleAnim;
     public AnimationClip WalkAnim;
     public AnimationClip AttackAnim;
+
+    public AudioClip AttackSoundEffekt;
 }
