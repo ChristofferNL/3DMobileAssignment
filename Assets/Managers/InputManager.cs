@@ -6,6 +6,7 @@ public class InputManager : MonoBehaviour
 {
     private PlayerControls inputActions;
     private PlayerControls.PlayerActionMapActions playerActions;
+    public FixedJoystick FixedJoystick;
 
     private void Awake()
     {
@@ -26,6 +27,7 @@ public class InputManager : MonoBehaviour
 
     private void Update()
     {
+        EventManager.Instance.MoveInputEvent(FixedJoystick.Horizontal);
         //EventManager.Instance.AttackInputEvent(playerActions.Attack.IsPressed());
         //EventManager.Instance.MoveInputEvent(playerActions.MovementActions.ReadValue<float>());
         //EventManager.Instance.JumpInputEvent(playerActions.Jump.IsPressed());
