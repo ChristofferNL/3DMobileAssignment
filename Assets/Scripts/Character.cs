@@ -199,14 +199,16 @@ public abstract class Character : AnimatedObject
 
     private void RotateGolem(float xInput)
     {
-        if (xInput >= 0)
+        if (xInput >= 0 && !isMovingRight)
         {
             CharacterMeshObject.transform.rotation = Quaternion.Euler(0, 90, 0);
+            Rigidbody.velocity = new Vector3(0, Rigidbody.velocity.y, 0);
             isMovingRight = true;
         }
-        else
+        else if(xInput <= 0 && isMovingRight)
         {
             CharacterMeshObject.transform.rotation = Quaternion.Euler(0, 270, 0);
+            Rigidbody.velocity = new Vector3(0, Rigidbody.velocity.y, 0);
             isMovingRight = false;
         }
     }
