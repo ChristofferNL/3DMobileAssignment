@@ -15,7 +15,7 @@ MonoBehaviour:
   BuffEffect: {fileID: 4271093393614929224, guid: 87ee7299dd44ed747af24dbb91bcd33b,
     type: 3}
   ParticleYOffset: -1
-  MoveSpeedModifier: -200
+  MoveSpeedModifier: -300
   JumpSpeedModifier: 500
   OnLanding: 1
   IsStatic: 0

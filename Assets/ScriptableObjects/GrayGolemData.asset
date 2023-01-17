@@ -13,9 +13,9 @@ MonoBehaviour:
   m_Name: GrayGolemData
   m_EditorClassIdentifier: 
   MoveSpeedMultiplier: 900
-  MaxMoveSpeed: 10
+  MaxMoveSpeed: 8
   JumpDuration: 0.4
-  JumpSpeed: 2000
+  JumpSpeed: 1800
   AttackCooldown: 1.2
   AttackProjectileObject: {fileID: 5298590762127773683, guid: cad9f745870d9f448bf225d2a253d382,
     type: 3}

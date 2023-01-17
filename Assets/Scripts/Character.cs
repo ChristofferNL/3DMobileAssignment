@@ -72,7 +72,7 @@ public abstract class Character : AnimatedObject
         if (stateMachine.ActiveBuff == 0)
         {
             fireAuraTimer += Time.deltaTime;
-            if (fireAuraTimer > 1.5f)
+            if (fireAuraTimer > 1f)
             {
                 fireAuraTimer = 0;
                 GameObject clone = Instantiate(GetComponent<CharacterGreyGolem>().GolemDataObject.AttackProjectileObject, new Vector3(transform.position.x, transform.position.y, transform.position.z), Quaternion.identity);
@@ -236,7 +236,7 @@ public abstract class Character : AnimatedObject
     private void OnCollisionEnter(Collision collision)
     {
         
-        if (velocityBeforePhysicsUpdate.y < -15f && stateMachine.ActiveBuff == CharacterStateMachine.GolemBuffs.CrushingLanding && groundExplosionsCounter == 0)
+        if (velocityBeforePhysicsUpdate.y < -12f && stateMachine.ActiveBuff == CharacterStateMachine.GolemBuffs.CrushingLanding && groundExplosionsCounter == 0)
         {
             velocityBeforePhysicsUpdate.y = 0;
             groundExplosionsCounter++;

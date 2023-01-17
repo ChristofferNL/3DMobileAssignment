@@ -12,10 +12,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fb10c523f7d286d469a987b5d7f47f45, type: 3}
   m_Name: GreenGolemData
   m_EditorClassIdentifier: 
-  MoveSpeedMultiplier: 900
-  MaxMoveSpeed: 10
+  MoveSpeedMultiplier: 700
+  MaxMoveSpeed: 7
   JumpDuration: 0.4
-  JumpSpeed: 2000
+  JumpSpeed: 1500
   AttackCooldown: 2.5
   AttackProjectileObject: {fileID: 1260152368072798, guid: 4bf449b1b6e781140a548b42020600f6,
     type: 3}
